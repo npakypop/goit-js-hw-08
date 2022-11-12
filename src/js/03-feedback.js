@@ -1,9 +1,9 @@
 import storageApi from './storage';
-
+var throttle = require('lodash.throttle');
 const form = document.querySelector('.feedback-form');
 
-form.addEventListener('submit', onSubmitBtn);
-form.addEventListener('input', onFieldInput);
+form.addEventListener('submit', throttle(onSubmitBtn, 250));
+form.addEventListener('input', throttle(onFieldInput, 250));
 
 const USER_DATA = "feedback-form-state";
 
@@ -34,7 +34,7 @@ fillInputFields()
 
 function onSubmitBtn(event) { 
     event.preventDefault();
-
+    console.log(JSON.parse(localStorage.getItem(USER_DATA)));
     event.target.reset();
     storageApi.remove(USER_DATA);
 }
